@@ -9,9 +9,7 @@ namespace LZY.Repository
     {
         public static void DIRegister(IServiceCollection services)
         {           
-            services.AddTransient<It_userRepository, t_userRepository>();       
-
-
+            services.AddTransient<It_userRepository, t_userRepository>();  
         }
     }
 }
