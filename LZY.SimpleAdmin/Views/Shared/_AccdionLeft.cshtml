@@ -1,0 +1,36 @@
+﻿@model List<LZY.Model.t_module>
+@{
+    var rootList = Model?.Where(a => a.p_parentid == 0).OrderBy(m => m.p_sort);
+}
+<div class="sidebar clearfix">
+    <ul class="sidebar-panel nav">
+        @*<li class="sidetitle">我的菜单</li>*@
+        <li><a href="@Url.Action("Index","Home")"><span class="icon color5"><i class="fa fa-home"></i></span>首页</a></li>
+        @if (rootList != null)
+        {
+            foreach (var item in rootList)
+            {
+                <li>
+                    <a href="#"><span class="icon color7"><i class="@item.p_icon"></i></span>@item.p_name<span class="caret"></span></a>
+                    <ul style="display:block;">
+                        @foreach (var menu in Model?.Where(a => a.p_parentid == item.p_id).OrderBy(m => m.p_sort))
+                    {
+                            <li><a href="@menu.p_relativeurl">@menu.p_name</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+        }
+
+    </ul>
+
+    <div class="sidebar-plan">
+        Pro Plan<a href="#" class="link">Upgrade</a>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+            </div>
+        </div>
+        <span class="space">42 GB / 100 GB</span>
+    </div>
+
+</div>

@@ -1,6 +1,6 @@
 ﻿
 
-namespace LZY.Code
+namespace  LZY.Code
 {
     /// <summary>
     /// 分页信息

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LZY.Code
+namespace  LZY.Code
 {
    public class Configs
     {

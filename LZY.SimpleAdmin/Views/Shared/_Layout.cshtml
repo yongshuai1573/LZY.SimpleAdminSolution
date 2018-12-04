@@ -1,74 +1,194 @@
-﻿<!DOCTYPE html>
-<html>
+﻿@{
+    var loginModel = LZY.Code.OperatorProvider.Provider.GetCurrent();
+    List<LZY.Model.t_module> menuList = LZY.Code.WebHelper.GetSession<List<LZY.Model.t_module>>("UserModules");
+}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - LZY.SimpleAdmin</title>
-
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @*<meta name="description" content="Kode is a Premium Bootstrap Admin Template, It's responsive, clean coded and mobile friendly">
+        <meta name="keywords" content="bootstrap, admin, dashboard, flat admin template, responsive," />*@
+    <title>@ViewBag.Title -@(LZY.Code.Configs.GetValue("SiteName") ?? "XX管理系统")</title>
+    <!-- ========== Css Files ========== -->
+    <link href="~/css/root.css" rel="stylesheet">
+    <link href="~~/css/jquery.validate.Bubble.css" rel="stylesheet" />
+    <link href="~~/css/plugin/toastr/toastr.min.css" rel="stylesheet" />
+    @RenderSection("css", false)
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">LZY.SimpleAdmin</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-            </div>
+    <!-- Start Page Loading -->
+    <div id="loadingDiv" class="loading"><img src="~/img/loading.gif" alt="loading-img"></div>
+    <!-- End Page Loading -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START TOP -->
+    <div id="top" class="clearfix">
+        <!-- Start App Logo -->
+        <div class="applogo">
+            <a href="@Url.Action("Index","Home")" class="logo">LZYNETWORK</a>
         </div>
-    </nav>
+        <!-- End App Logo -->
+        <!-- Start Sidebar Show Hide Button -->
+        <a href="#" class="sidebar-open-button"><i class="fa fa-bars"></i></a>
+        <a href="#" class="sidebar-open-button-mobile"><i class="fa fa-bars"></i></a>
+        <!-- End Sidebar Show Hide Button -->
+        <!-- Start Searchbox -->
+        @*<form class="searchform">
+                <input type="text" class="searchbox" id="searchbox" placeholder="Search">
+                <span class="searchbutton"><i class="fa fa-search"></i></span>
+            </form>*@
+        <!-- End Searchbox -->
+        <!-- Start Top Menu -->
+        @*<ul class="topmenu">
+                <li><a href="#">Files</a></li>
+                <li><a href="#">Authors</a></li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">My Files <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Videos</a></li>
+                        <li><a href="#">Pictures</a></li>
+                        <li><a href="#">Blog Posts</a></li>
+                    </ul>
+                </li>
+            </ul>*@
+        <!-- End Top Menu -->
+        <!-- Start Sidepanel Show-Hide Button -->
+        <a href="#sidepanel" class="sidepanel-open-button"><i class="fa fa-outdent"></i></a>
+        <!-- End Sidepanel Show-Hide Button -->
+        <!-- Start Top Right -->
+        <ul class="top-right">
 
-    <partial name="_CookieConsentPartial" />
+            @*<li class="dropdown link">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle hdbutton">Create New <span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-list">
+                        <li><a href="#"><i class="fa falist fa-paper-plane-o"></i>Product or Item</a></li>
+                        <li><a href="#"><i class="fa falist fa-font"></i>Blog Post</a></li>
+                        <li><a href="#"><i class="fa falist fa-file-image-o"></i>Image Gallery</a></li>
+                        <li><a href="#"><i class="fa falist fa-file-video-o"></i>Video Gallery</a></li>
+                    </ul>
+                </li>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - LZY.SimpleAdmin</p>
-        </footer>
+                <li class="link">
+                    <a href="#" class="notifications">6</a>
+                </li>*@
+
+            <li class="dropdown link">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle profilebox"><img src="~/img/profileimg.png" alt="img"><b>@(loginModel?.UserName + "(" + loginModel?.UserName + ")")</b><span class="caret"></span></a>
+                <ul class="dropdown-menu dropdown-menu-list dropdown-menu-right">
+                    <li role="presentation" class="dropdown-header">Profile</li>
+                    <li><a href="@Url.Action("Usercenter","Account")"><i class="fa falist fa-file-o"></i>用户中心</a></li>
+                    <li><a href="@Url.Action("ChangePwd","Account")"><i class="fa falist fa-wrench"></i>修改密码</a></li>
+                    @*<li><a href="#"><i class="fa falist fa-wrench"></i>Settings</a></li>*@
+                    <li class="divider"></li>
+                    @*<li><a href="#"><i class="fa falist fa-lock"></i> Lockscreen</a></li>*@
+                    <li><a href="@Url.Action("SignOut","Login")"><i class="fa falist fa-power-off"></i> 登出</a></li>
+                </ul>
+            </li>
+
+        </ul>
+        <!-- End Top Right -->
+
     </div>
+    <!-- END TOP -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START SIDEBAR -->
+    @await Html.PartialAsync("_AccdionLeft", menuList)
+    <!-- END SIDEBAR -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START CONTENT -->
+    <div class="content">
+        @RenderBody()
+        <!-- //////////////////////////////////////////////////////////////////////////// -->
+        <!-- Start Footer -->
+        <partial name="_Footer" />
+        @*@await Html.PartialAsync("_Footer")*@
 
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
+        <!-- End Footer -->
 
-    @RenderSection("Scripts", required: false)
+
+    </div>
+    <!-- End Content -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START SIDEPANEL -->
+    @await Html.PartialAsync("_TaskPanelTopRight")
+    <!-- END SIDEPANEL -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- ================================================
+    jQuery Library
+    ================================================ -->
+    <script type="text/javascript" src="~/js/jquery.min.js"></script>
+
+    <!-- ================================================
+    Bootstrap Core JavaScript File
+    ================================================ -->
+    <script src="~/js/bootstrap/bootstrap.min.js"></script>
+
+    <!-- ================================================
+    Plugin.js - Some Specific JS codes for Plugin Settings
+    ================================================ -->
+    <script type="text/javascript" src="~/js/plugins.js"></script>
+
+    <!-- ================================================
+    Bootstrap Select
+    ================================================ -->
+    <script type="text/javascript" src="~/js/bootstrap-select/bootstrap-select.js"></script>
+
+    <!-- ================================================
+    Bootstrap Toggle
+    ================================================ -->
+    <script type="text/javascript" src="~/js/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+
+    <!-- ================================================
+    Moment.js
+    ================================================ -->
+    <script type="text/javascript" src="~/js/moment/moment.min.js"></script>
+
+    <!-- ================================================
+    前端验证JS
+    ================================================ -->
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.validate.Bubble.js"></script>
+    <!-- ================================================
+    日期选择控件
+    ================================================ -->
+    <script src="~~/js/date-range-picker/daterangepicker.js"></script>
+
+    <!-- ================================================
+    非入侵式Ajax
+    ================================================ -->
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+    <!-- ================================================
+    弹出框
+    ================================================ -->
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "rtl": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": 300,
+            "hideDuration": 1000,
+            "timeOut": 3000,
+            "extendedTimeOut": 1000,
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+    </script>
+
+    @RenderSection("js", false)
+
 </body>
 </html>

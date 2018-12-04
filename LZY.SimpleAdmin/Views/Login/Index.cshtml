@@ -1,0 +1,56 @@
+﻿@model LZY.SimpleAdmin.Models.LoginViewModel
+@{
+    Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+    ViewBag.Title = "登录";
+}
+
+@section css{
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            background: black;
+            overflow: hidden;
+        }
+    </style>
+}
+<div style="position:relative;">
+    <div class="login-form" style="position: absolute;z-index:99; margin:auto;left:0;right:0;">
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+            <div class="top">
+                <img src="/Content/img/lzylogo.jpg" alt="icon" class="icon">
+                <h1>任务管理系统</h1>
+                <h4>路之遥网络科技有限公司</h4>
+            </div>
+            <div class="form-area">
+                <div class="group">
+                    @Html.TextBoxFor(a => a.UserName, new { @class = "form-control", placeholder = "Username", autofocus = "autofocus" })
+                    <i class="fa fa-user"></i>
+                    @Html.ValidationMessageFor(a => a.UserName)
+                </div>
+                <div class="group">
+                    @Html.PasswordFor(a => a.PassWord, new { @class = "form-control", placeholder = "Password" })
+                    <i class="fa fa-key"></i>
+                    @Html.ValidationMessageFor(a => a.PassWord)
+                </div>
+                <div class="checkbox checkbox-primary">
+                    <input id="checkbox101" name="RememberMe" value="1" type="checkbox" checked>
+                    <label for="checkbox101"> Remember Me</label>
+                </div>
+                <div style="color:red;">
+                    @Html.ValidationSummary(true)
+                </div>
+                <button type="submit" class="btn btn-default btn-block">LOGIN</button>
+            </div>
+        </form>
+    </div>
+</div>
+@{ 
+    Random rd = new Random();
+    int number=rd.Next(1,15);
+    string url= "http://www.jq22.com/js/a"+@number+".html";
+}
+<iframe class="baniframe" style="width: 100%;height: 100%;border-width: 0px;position:absolute;z-index:1;" sandbox="allow-scripts allow-same-origin" id="mh" src="@url"></iframe>
+

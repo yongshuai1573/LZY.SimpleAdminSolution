@@ -9,6 +9,6 @@ namespace LZY.Application
     {
 
         int getCount();
-
+        Tuple<bool, string, LZY.Code.OperatorModel> userLogin(string userName, string passWord);
     }
 }

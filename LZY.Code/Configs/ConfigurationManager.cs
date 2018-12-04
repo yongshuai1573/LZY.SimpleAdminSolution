@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace LZY.Code
+namespace  LZY.Code
 {
    public static class ConfigurationManager
     {

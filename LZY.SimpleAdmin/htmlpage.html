@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hello, World</title>
+    <style type="text/css">
+        html {
+            height: 100%
+        }
+
+        body {
+            height: 100%;
+            margin: 0px;
+            padding: 0px
+        }
+
+        #container {
+            height: 100%
+        }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=BmqUT0peM5zHj4UrrRDMF0Tp526yQTwe">
+        //v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
+    </script>
+</head>
+<body>
+    <div id="container" style="width:619px;height:540px;"></div>
+
+</body>
+</html>
+<script src="wwwroot/Scripts/jquery-2.1.4.js"></script>
+<script type="text/javascript">
+    var map = new BMap.Map("container");
+    map.centerAndZoom(new BMap.Point(120.4398075, 31.3504785), '14');
+    map.addControl(new BMap.NavigationControl());
+    var markers = [], infoWindows = [], nowPoint = 0;
+    $(function () {
+        ShowMap('120.433209,31.36395', '苏州路之遥科技股份有限公司', '苏州高新区科技城雁荡山路88号', '0512-68418888', '0512-68419999');
+        ShowMap('120.446406,31.337007', '路之遥电子商务大厦', '苏州高新区科技城锦峰路190号', '17706215160 ', '0512-68419999');      
+        markers[1].openInfoWindow(infoWindows[1]);
+        setInterval(changeShow, 2000);
+    })
+
+    function ShowMap(zuobiao, name, addrsee, phone, chuanzhen) {
+        var arrzuobiao = zuobiao.split(',');
+        var marker = new BMap.Marker(new BMap.Point(arrzuobiao[0], arrzuobiao[1]));
+        map.addOverlay(marker);
+        var infoWindow = new BMap.InfoWindow('<p style="color: #bf0008;font-size:14px;">' + name + '</p><p  style="font-size:12px;">地址:' + addrsee + '</p><p  style="font-size:12px;">电话:' + phone + '</p><p  style="font-size:12px;">传真:' + chuanzhen + '</p>');
+        infoWindows.push(infoWindow)
+        marker.addEventListener("click", function () {
+            this.openInfoWindow(infoWindow);
+        });
+        markers.push(marker);
+    }
+    function changeShow() {
+        markers[nowPoint].openInfoWindow(infoWindows[nowPoint]);
+        if (nowPoint == 0) {
+            nowPoint = 1;
+        }
+        else {
+            nowPoint = 0;
+
+        }
+    }
+</script>

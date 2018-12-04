@@ -9,8 +9,9 @@ using LZY.Application;
 
 namespace LZY.SimpleAdmin.Controllers
 {
-    public class HomeController : Controller
-    {
+    public class HomeController : BaseController
+    {      
+
         private IUserBus _bus;
 
         public HomeController(IUserBus bus)

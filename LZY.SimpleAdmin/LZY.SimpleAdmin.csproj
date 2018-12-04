@@ -7,12 +7,14 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LZY.Application\LZY.Application.csproj" />
     <ProjectReference Include="..\LZY.Code\LZY.Code.csproj" />
     <ProjectReference Include="..\LZY.Mapping\LZY.Mapping.csproj" />
+    <ProjectReference Include="..\LZY.Model\LZY.Model.csproj" />
   </ItemGroup>
 
 </Project>

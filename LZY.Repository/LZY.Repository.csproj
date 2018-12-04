@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="microsoft.EntityFrameworkCore" Version="2.1.4" />
+    <PackageReference Include="microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LZY.Data\LZY.Data.csproj" />
     <ProjectReference Include="..\LZY.Model\LZY.Model.csproj" />
   </ItemGroup>
