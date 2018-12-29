@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
+using X.PagedList;
 
 namespace LZY.Data
 {
@@ -26,5 +27,7 @@ namespace LZY.Data
         List<TEntity> FindList(string strSql, DbParameter[] dbParameter);
         List<TEntity> FindList(Pagination pagination);
         List<TEntity> FindList(Expression<Func<TEntity, bool>> predicate, Pagination pagination);
+        IPagedList<TEntity> FindListPager(Expression<Func<TEntity, bool>> predicate, Pagination pagination);
+        IPagedList<TEntity> FindListPager(Pagination pagination);
     }
 }

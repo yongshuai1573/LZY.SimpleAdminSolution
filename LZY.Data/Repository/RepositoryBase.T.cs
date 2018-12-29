@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using X.PagedList;
 
 namespace LZY.Data
 {
@@ -14,7 +15,7 @@ namespace LZY.Data
     /// 仓储实现
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class,new()
+    public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class, new()
     {
         public LZYDbContext dbcontext = new LZYDbContext();
         public int Insert(TEntity entity)
@@ -33,7 +34,7 @@ namespace LZY.Data
         public int Update(TEntity entity)
         {
             dbcontext.Set<TEntity>().Attach(entity);
-           
+
             PropertyInfo[] props = entity.GetType().GetProperties();
             foreach (PropertyInfo prop in props)
             {
@@ -90,8 +91,9 @@ namespace LZY.Data
             string[] _order = pagination.sidx.Split(',');
             MethodCallExpression resultExp = null;
             var tempData = dbcontext.Set<TEntity>().AsQueryable();
-            foreach (string item in _order)
+            for (int i = 0; i < _order.Length; i++)
             {
+                string item = _order[i];
                 string _orderPart = item;
                 _orderPart = Regex.Replace(_orderPart, @"\s+", " ");
                 string[] _orderArry = _orderPart.Split(' ');
@@ -105,9 +107,17 @@ namespace LZY.Data
                 var property = typeof(TEntity).GetProperty(_orderField);
                 var propertyAccess = Expression.MakeMemberAccess(parameter, property);
                 var orderByExp = Expression.Lambda(propertyAccess, parameter);
-                resultExp = Expression.Call(typeof(Queryable), isAsc ? "OrderBy" : "OrderByDescending", new Type[] { typeof(TEntity), property.PropertyType }, tempData.Expression, Expression.Quote(orderByExp));
+                if (i == 0)
+                {
+
+                    resultExp = Expression.Call(typeof(Queryable), isAsc ? "OrderBy" : "OrderByDescending", new Type[] { typeof(TEntity), property.PropertyType }, tempData.Expression, Expression.Quote(orderByExp));
+                }
+                else
+                {
+                    resultExp = Expression.Call(typeof(Queryable), isAsc ? "ThenBy" : "ThenByDescending", new Type[] { typeof(TEntity), property.PropertyType }, tempData.Expression, Expression.Quote(orderByExp));
+                }
+                tempData = tempData.Provider.CreateQuery<TEntity>(resultExp);
             }
-            tempData = tempData.Provider.CreateQuery<TEntity>(resultExp);
             pagination.records = tempData.Count();
             tempData = tempData.Skip<TEntity>(pagination.rows * (pagination.page - 1)).Take<TEntity>(pagination.rows).AsQueryable();
             return tempData.ToList();
@@ -118,8 +128,9 @@ namespace LZY.Data
             string[] _order = pagination.sidx.Split(',');
             MethodCallExpression resultExp = null;
             var tempData = dbcontext.Set<TEntity>().Where(predicate);
-            foreach (string item in _order)
+            for (int i = 0; i < _order.Length; i++)
             {
+                string item = _order[i];
                 string _orderPart = item;
                 _orderPart = Regex.Replace(_orderPart, @"\s+", " ");
                 string[] _orderArry = _orderPart.Split(' ');
@@ -133,12 +144,97 @@ namespace LZY.Data
                 var property = typeof(TEntity).GetProperty(_orderField);
                 var propertyAccess = Expression.MakeMemberAccess(parameter, property);
                 var orderByExp = Expression.Lambda(propertyAccess, parameter);
-                resultExp = Expression.Call(typeof(Queryable), isAsc ? "OrderBy" : "OrderByDescending", new Type[] { typeof(TEntity), property.PropertyType }, tempData.Expression, Expression.Quote(orderByExp));
+                if (i == 0)
+                {
+
+                    resultExp = Expression.Call(typeof(Queryable), isAsc ? "OrderBy" : "OrderByDescending", new Type[] { typeof(TEntity), property.PropertyType }, tempData.Expression, Expression.Quote(orderByExp));
+                }
+                else
+                {
+                    resultExp = Expression.Call(typeof(Queryable), isAsc ? "ThenBy" : "ThenByDescending", new Type[] { typeof(TEntity), property.PropertyType }, tempData.Expression, Expression.Quote(orderByExp));
+                }
+                tempData = tempData.Provider.CreateQuery<TEntity>(resultExp);
             }
-            tempData = tempData.Provider.CreateQuery<TEntity>(resultExp);
             pagination.records = tempData.Count();
             tempData = tempData.Skip<TEntity>(pagination.rows * (pagination.page - 1)).Take<TEntity>(pagination.rows).AsQueryable();
             return tempData.ToList();
+        }
+
+
+        public IPagedList<TEntity> FindListPager(Expression<Func<TEntity, bool>> predicate, Pagination pagination)
+        {
+            bool isAsc = pagination.sord.ToLower() == "asc" ? true : false;
+            string[] _order = pagination.sidx.Split(',');
+            MethodCallExpression resultExp = null;
+            var tempData = dbcontext.Set<TEntity>().Where(predicate);
+            for (int i = 0; i < _order.Length; i++)
+            {
+                string item = _order[i];
+                string _orderPart = item;
+                _orderPart = Regex.Replace(_orderPart, @"\s+", " ");
+                string[] _orderArry = _orderPart.Split(' ');
+                string _orderField = _orderArry[0];
+                bool sort = isAsc;
+                if (_orderArry.Length == 2)
+                {
+                    isAsc = _orderArry[1].ToUpper() == "ASC" ? true : false;
+                }
+                var parameter = Expression.Parameter(typeof(TEntity), "t");
+                var property = typeof(TEntity).GetProperty(_orderField);
+                var propertyAccess = Expression.MakeMemberAccess(parameter, property);
+                var orderByExp = Expression.Lambda(propertyAccess, parameter);
+                if (i == 0)
+                {
+
+                    resultExp = Expression.Call(typeof(Queryable), isAsc ? "OrderBy" : "OrderByDescending", new Type[] { typeof(TEntity), property.PropertyType }, tempData.Expression, Expression.Quote(orderByExp));
+                }
+                else
+                {
+                    resultExp = Expression.Call(typeof(Queryable), isAsc ? "ThenBy" : "ThenByDescending", new Type[] { typeof(TEntity), property.PropertyType }, tempData.Expression, Expression.Quote(orderByExp));
+                }
+                tempData = tempData.Provider.CreateQuery<TEntity>(resultExp);
+            }
+            pagination.records = tempData.Count();
+            //tempData = tempData.Skip<TEntity>(pagination.rows * (pagination.page - 1)).Take<TEntity>(pagination.rows).AsQueryable();
+            return tempData.ToPagedList(pagination.page, pagination.rows);
+        }
+
+        public IPagedList<TEntity> FindListPager(Pagination pagination)
+        {
+            bool isAsc = pagination.sord.ToLower() == "asc" ? true : false;
+            string[] _order = pagination.sidx.Split(',');
+            MethodCallExpression resultExp = null;
+            var tempData = dbcontext.Set<TEntity>().AsQueryable();
+            for (int i = 0; i < _order.Length; i++)
+            {
+                string item = _order[i];
+                string _orderPart = item;
+                _orderPart = Regex.Replace(_orderPart, @"\s+", " ");
+                string[] _orderArry = _orderPart.Split(' ');
+                string _orderField = _orderArry[0];
+                bool sort = isAsc;
+                if (_orderArry.Length == 2)
+                {
+                    isAsc = _orderArry[1].ToUpper() == "ASC" ? true : false;
+                }
+                var parameter = Expression.Parameter(typeof(TEntity), "t");
+                var property = typeof(TEntity).GetProperty(_orderField);
+                var propertyAccess = Expression.MakeMemberAccess(parameter, property);
+                var orderByExp = Expression.Lambda(propertyAccess, parameter);
+                if (i == 0)
+                {
+
+                    resultExp = Expression.Call(typeof(Queryable), isAsc ? "OrderBy" : "OrderByDescending", new Type[] { typeof(TEntity), property.PropertyType }, tempData.Expression, Expression.Quote(orderByExp));
+                }
+                else
+                {
+                    resultExp = Expression.Call(typeof(Queryable), isAsc ? "ThenBy" : "ThenByDescending", new Type[] { typeof(TEntity), property.PropertyType }, tempData.Expression, Expression.Quote(orderByExp));
+                }
+                tempData = tempData.Provider.CreateQuery<TEntity>(resultExp);
+            }
+            pagination.records = tempData.Count();
+            return tempData.ToPagedList(pagination.page, pagination.rows);
+
         }
     }
 }

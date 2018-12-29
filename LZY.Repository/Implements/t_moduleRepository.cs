@@ -33,7 +33,6 @@ namespace LZY.Repository
                 }
                 else
                 {
-
                     mList = search.Distinct().ToList();
                     var parentIds = mList.Select(a => a.p_parentid).ToList().Distinct();
                     var rootList = db.Set<t_module>().Where(m => parentIds.Contains(m.p_id)).OrderBy(a => a.p_sort).ThenBy(a => a.p_createtime);
