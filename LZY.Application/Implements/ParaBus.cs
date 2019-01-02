@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using LZY.Repository;
-using X.PagedList;
 using LZY.Code;
 
 namespace LZY.Application.Implements
@@ -96,17 +95,6 @@ namespace LZY.Application.Implements
         }
 
 
-        public IPagedList<t_paratype> getList(string searchCode, Pagination pagination)
-        {
-            var expression = ExtLinq.True<t_paratype>();
-            if (!string.IsNullOrWhiteSpace(searchCode))
-            {
-
-            }
-            return _service.FindListPager(expression, pagination);
-
-
-        }
     }
 
     #endregion
