@@ -1,17 +1,16 @@
-﻿using LZY.Application.Interface;
-using LZY.Model;
+﻿using LZY.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using LZY.Repository;
 using LZY.Code;
-
+using AspNetCorePage;
+using System.Linq;
 namespace LZY.Application.Implements
 {
     public class ParaBus : IParaBus
     {
-
         private It_paratypeRepository _service;
         public ParaBus(It_paratypeRepository service)
         {
@@ -93,6 +92,21 @@ namespace LZY.Application.Implements
             }
             return Tuple.Create(false, "操作异常，未找到有效的数据");
         }
+
+        public PagedList<t_paratype> GetPageList(string searchCode = "", int p = 1)
+        {
+
+            var query = _service.IQueryable();
+            if (!string.IsNullOrWhiteSpace(searchCode))//查询 条件
+            {
+                var express = ExtLinq.True<t_paratype>();
+                express = express.And(m => m.p_code.Contains(searchCode) || m.p_name.Contains(searchCode));
+                query = query.Where(express);
+            }
+            return query.ToPagedList(p, PubliceParas.PageSize);
+
+        }
+
 
 
     }

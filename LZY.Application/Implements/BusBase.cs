@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using LZY.Application.Interface;
-namespace LZY.Application.Implements
+using AspNetCorePage;
+
+namespace LZY.Application
 {
 
     //这里把通用的方法，统一完成，减少代码量
@@ -16,6 +17,11 @@ namespace LZY.Application.Implements
         }
 
         public T FindDto(object keyValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PagedList<T> GetPageList(string code, int p = 1)
         {
             throw new NotImplementedException();
         }

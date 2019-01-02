@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LZY.Application.Interface
+namespace LZY.Application
 {
     public interface IBusBase<T>
     {
@@ -19,7 +19,11 @@ namespace LZY.Application.Interface
         /// <param name="sourceModel"></param>
         /// <returns></returns>
         Tuple<bool, string> SaveModel(T sourceModel);
-      
+
+
+        AspNetCorePage.PagedList<T> GetPageList(string code, int p = 1);
+
+
 
     }
 }
