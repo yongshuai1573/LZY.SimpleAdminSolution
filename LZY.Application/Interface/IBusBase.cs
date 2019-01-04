@@ -19,7 +19,12 @@ namespace LZY.Application
         /// <param name="sourceModel"></param>
         /// <returns></returns>
         Tuple<bool, string> SaveModel(T sourceModel);
-
+        /// <summary>
+        ///删除
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Tuple<bool, string> Deleted(int id);
 
         AspNetCorePage.PagedList<T> GetPageList(string code, int p = 1);
 

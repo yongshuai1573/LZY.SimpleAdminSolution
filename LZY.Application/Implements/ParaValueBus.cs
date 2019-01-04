@@ -9,10 +9,10 @@ using AspNetCorePage;
 using System.Linq;
 namespace LZY.Application
 {
-    public class ParaBus : IParaBus
+    public class ParaValueBus : IParaValueBus
     {
-        private It_paratypeRepository _service;
-        public ParaBus(It_paratypeRepository service)
+        private It_para_valuesRepository _service;
+        public ParaValueBus(It_para_valuesRepository service)
         {
             _service = service;
         }
@@ -24,7 +24,7 @@ namespace LZY.Application
         /// </summary>
         /// <param name="keyValue"></param>
         /// <returns></returns>
-        public t_paratype FindDto(object keyValue)
+        public t_para_values FindDto(object keyValue)
         {
 
             var dbModel = _service.FindEntity(keyValue);
@@ -39,7 +39,7 @@ namespace LZY.Application
         /// </summary>
         /// <param name="sourceModel"></param>
         /// <returns></returns>
-        public Tuple<bool, string> SaveModel(t_paratype sourceModel)
+        public Tuple<bool, string> SaveModel(t_para_values sourceModel)
         {
             bool result = false;
 
@@ -71,9 +71,8 @@ namespace LZY.Application
 
             }
 
-
-
         }
+
         /// <summary>
         /// 删除参数
         /// </summary>
@@ -94,15 +93,14 @@ namespace LZY.Application
             return Tuple.Create(false, "操作异常，未找到有效的数据");
         }
 
-        public PagedList<t_paratype> GetPageList(string searchCode = "", int p = 1)
+        public PagedList<t_para_values> GetPageList(string searchCode = "", int p = 1)
         {
 
             var query = _service.IQueryable();
-            var express = ExtLinq.True<t_paratype>();
-            express = express.And(model => model.p_deleted == false);
             if (!string.IsNullOrWhiteSpace(searchCode))//查询 条件
             {
-                express = express.And(m => m.p_code.Contains(searchCode) || m.p_name.Contains(searchCode));
+                var express = ExtLinq.True<t_para_values>();
+                express = express.And(m => m.p_code.Contains(searchCode) || m.p_value.Contains(searchCode));
                 query = query.Where(express);
             }
             return query.ToPagedList(p, PubliceParas.PageSize);
@@ -110,9 +108,22 @@ namespace LZY.Application
         }
 
 
+
+        #endregion
+
+        public List<t_para_values> GetListByTypeId(int id)
+        {
+            var query = _service.IQueryable().Where(a => a.p_pid == id && a.p_deleted == false).OrderBy(a => a.p_sort);
+
+            return query.ToList();
+
+
+        }
+
     }
 
-    #endregion
+
+
 
 
 

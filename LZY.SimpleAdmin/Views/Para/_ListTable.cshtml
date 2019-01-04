@@ -18,9 +18,9 @@
                 <td>@row.p_createtime.GetValueOrDefault().ToString("yyyy-MM-dd HH:mm:ss")</td>
                 <td>@row.p_describ</td>
                 <td>
-                    @Html.ActionLink("编辑", "ParaInfo", new { id = row.p_id }, htmlAttributes: new { @class = "btn btn-default btn-sm" })<text>&nbsp;</text>
-                    <a asp-action="ParaDeleted" asp-route-id="@row.p_id" data-ajax-confirm="确认要删除么？" data-ajax-complete="onComplate" data-ajax-method="Post" class="btn btn-danger btn-sm">删除</a><text>&nbsp;</text>
-                    @Html.ActionLink("值配置", "ValueList", new { id = row.p_id }, htmlAttributes: new { @class = "btn btn-default btn-sm" })
+                    @Html.ActionLink("编辑", "Info", new { id = row.p_id }, htmlAttributes: new { @class = "btn btn-default btn-sm" })<text>&nbsp;</text>
+                    <a asp-action="ParaDeleted" asp-route-id="@row.p_id" data-ajax-confirm="确认要删除么？" data-ajax-complete="onComplate" data-ajax="true" data-ajax-method="Post" class="btn btn-danger btn-sm">删除</a><text>&nbsp;</text>
+                    @Html.ActionLink("值配置", "ChildList", new { id = row.p_id }, htmlAttributes: new { @class = "btn btn-default btn-sm" })
                 </td>
             </tr>
 

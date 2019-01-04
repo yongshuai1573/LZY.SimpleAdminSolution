@@ -19,6 +19,19 @@ namespace LZY.SimpleAdmin.Controllers
             }
         }
 
+
+        public JsonResult TupleResult(Tuple<bool, string> source)
+        {
+            if (source.Item1)
+            {
+                return Success(message: source.Item2);
+            }
+            else
+            {
+                return Error(message: source.Item2);
+
+            }
+        }
         public JsonResult Success(object obj = null, string message = "操作成功")
         {
             return Json(new AjaxResult()

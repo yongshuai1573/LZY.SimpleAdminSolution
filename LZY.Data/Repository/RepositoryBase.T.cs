@@ -41,7 +41,7 @@ namespace LZY.Data
                 {
                     if (prop.GetValue(entity, null).ToString() == "&nbsp;")
                         dbcontext.Entry(entity).Property(prop.Name).CurrentValue = null;
-                    if (!prop.Name.Equals("F_Id"))
+                    if (!prop.Name.Equals("p_id"))
                         dbcontext.Entry(entity).Property(prop.Name).IsModified = true;
                 }
             }

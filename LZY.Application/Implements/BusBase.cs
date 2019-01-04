@@ -16,6 +16,11 @@ namespace LZY.Application
 
         }
 
+        public Tuple<bool, string> Deleted(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public T FindDto(object keyValue)
         {
             throw new NotImplementedException();
