@@ -95,8 +95,7 @@ namespace LZY.Application
         }
 
         public PagedList<t_paratype> GetPageList(string searchCode = "", int p = 1)
-        {
-
+        {           
             var query = _service.IQueryable();
             var express = ExtLinq.True<t_paratype>();
             express = express.And(model => model.p_deleted == false);

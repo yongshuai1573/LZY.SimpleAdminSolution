@@ -1,0 +1,124 @@
+﻿@model t_user
+@{
+    ViewBag.Title = "用户操作";
+}
+<!-- Start Page Header -->
+<div class="page-header">
+
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Home")">首页</a></li>
+        <li><a href="@Url.Action("Index","User")">用户列表</a></li>
+        <li class="active">用户操作</li>
+    </ol>
+    <div class="right">
+        <a href="@Url.Action("Index","User")" class="btn btn-default">返回列表</a>
+    </div>
+</div>
+<!-- End Page Header -->
+<!-- //////////////////////////////////////////////////////////////////////////// -->
+<!-- START CONTAINER -->
+<div class="container-padding">
+    <!-- Start Row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-title">
+                    用户信息管理
+                    <ul class="panel-tools">
+                        <li><a class="icon minimise-tool"><i class="fa fa-minus"></i></a></li>
+                        <li><a class="icon expand-tool"><i class="fa fa-expand"></i></a></li>
+                        <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("UserSave", "User", FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        @Html.HiddenFor(a => a.p_id)
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label form-label">登录账号</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(a => a.p_account, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(a => a.p_account)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label form-label">登录密码</label>
+                            <div class="col-sm-10">
+                                @Html.PasswordFor(a => a.p_password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(a => a.p_password)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label form-label">真实姓名</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(a => a.p_realname, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(a => a.p_realname)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label form-label">用户性别</label>
+                            <div class="col-sm-10">
+                                <div class="radio radio-info radio-inline">
+                                    @Html.RadioButtonFor(a => a.p_gender, true, new { @id = "Statusradio0" }) <label for="Statusradio0">男</label>
+                                </div>
+                                <div class="radio radio-info radio-inline">
+                                    @Html.RadioButtonFor(a => a.p_gender, false, new { @id = "Statusradio1" })<label for="Statusradio1">女</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label form-label">邮箱</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(a => a.p_email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(a => a.p_email)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label form-label">手机</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(a => a.p_phone, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(a => a.p_phone)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label form-label">是否启用</label>
+                            <div class="col-sm-10">
+                                <div class="radio radio-info radio-inline">
+                                    @Html.RadioButtonFor(a => a.p_enabled, true, new { @id = "Statusradio2" }) <label for="Statusradio2">启用</label>
+                                </div>
+                                <div class="radio radio-warning radio-inline">
+                                    @Html.RadioButtonFor(a => a.p_enabled, false, new { @id = "Statusradio3" })<label for="Statusradio3">禁用</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label form-label">备注</label>
+                            <div class="col-sm-10">
+                                @Html.TextAreaFor(a => a.p_attribute1, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-default">保存</button>
+                            </div>
+                        </div>
+                        <div style="color:red;">
+                            @Html.ValidationSummary(true)
+                        </div>
+
+                    }
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End Row -->
+</div>
+<!-- END CONTAINER -->
+<!-- //////////////////////////////////////////////////////////////////////////// -->

@@ -20,7 +20,7 @@ namespace LZY.SimpleAdmin.Controllers
         }
         public IActionResult Index()
         {
-            var count = _bus.getCount();
+          
             return View();
         }
 
