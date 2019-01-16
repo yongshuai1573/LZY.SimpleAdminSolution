@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "菜单管理";
+}
+@section css{
+    <link href="~/css/bootstrap-treeview.min.css" rel="stylesheet" />   
+}
+
+<div class="container-padding">
+    <!-- Start Page Header Right Div -->
+    <div class="page-header">
+        <h1 class="title">@ViewBag.Title</h1>
+        <ol class="breadcrumb">
+            <li class="active">菜单基础信息维护。</li>
+        </ol>
+        <div class="right">
+            <a href="@Url.Action("MenuInfo")" class="btn btn-default"><i class="fa fa-plus"></i>创建新菜单</a>
+        </div>
+    </div>
+    <!-- End Page Header Right Div -->
+    <!-- Start Row -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="tree"></div>
+        </div>
+    </div>
+    <!-- End Row -->
+</div>
+
+@section js{
+    <script src="~/Scripts/bootstrap-treeview.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            getTree();
+        });
+
+        function getTree() {
+            // Some logic to retrieve, or generate tree structure
+            $.getJSON("/Menu/GetMenuJson", function (result) {
+                if (result.success) {
+                    var data = eval(result.data);
+                    $('#tree').treeview({ data: data, showAfterHtml: true });
+                }
+                else {
+                    toastr.error(result.message);
+                }
+            });
+        }
+
+        function edit(cid) {
+            window.location.href = '/Menu/MenuInfo/' + cid;
+        }
+        function del(cid) {
+            if (confirm('确定要删除吗？')) {
+                $.post('/Menu/MenuDeleted', { id: cid }, function (result) {
+                    if (result.success) {
+                        toastr.success("操作成功");
+                        window.location.reload();
+                    }
+                    else {
+                        toastr.error("操作失败，" + result.message);
+                    }
+                });
+            }
+
+        }
+    </script>
+}

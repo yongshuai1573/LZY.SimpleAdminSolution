@@ -1,5 +1,4 @@
-﻿@using Webdiyer.WebControls.Mvc
-@model PagedList<UserViewModel>
+﻿@model PagedList<t_user>
 <table class="table table-striped table-hover">
     <thead>
         <tr>
@@ -47,7 +46,7 @@
 
 
                         }
-                        @Html.ActionLink("编辑", "UserInfo", new { id = row.p_id }, htmlAttributes: new { @class = "btn btn-default btn-sm" })<text>&nbsp;</text>
+                        @Html.ActionLink("编辑", "Info", new { id = row.p_id }, htmlAttributes: new { @class = "btn btn-default btn-sm" })<text>&nbsp;</text>
                         <a asp-action="UserDeleted" asp-route-id="@row.p_id" data-ajax-confirm="确认要删除么？" data-ajax-complete="onComplate" data-ajax="true" data-ajax-method="Post" class="btn btn-danger btn-sm">删除</a><text>&nbsp;</text>                      
                         @Html.ActionLink("角色", "UserRole", "Account", new { id = row.p_id }, htmlAttributes: new { @class = "btn btn-default btn-sm" })
                     }

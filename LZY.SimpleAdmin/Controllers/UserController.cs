@@ -53,7 +53,7 @@ namespace LZY.SimpleAdmin.Controllers
             t_user model = new t_user();
             if (id.GetValueOrDefault() > 0)
             {
-                model = _bus.FindDto(id);
+                model = _bus.FindModel(id);
             }
             return View(model);
         }

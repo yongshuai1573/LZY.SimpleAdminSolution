@@ -7,12 +7,14 @@ namespace LZY.Application
 {
     public interface IBusBase<T>
     {
+
+       
         /// <summary>
         /// 获取对象
         /// </summary>
         /// <param name="keyValue"></param>
         /// <returns></returns>
-        T FindDto(object keyValue);
+        T FindModel(object keyValue);
         /// <summary>
         /// 保存对象
         /// </summary>

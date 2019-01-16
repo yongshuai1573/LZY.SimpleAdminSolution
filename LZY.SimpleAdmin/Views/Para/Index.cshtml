@@ -22,7 +22,7 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <form asp-action="Index" asp-controller="Para" method="get"  class="form-inline" id="searchForm">
+                    <form asp-action="Index" asp-controller="Para" method="get" class="form-inline" id="searchForm">
                         <div class="form-group">
                             <input class="form-control" value="@System.Web.HttpContext.Current.Request.Query["s"]" name="s" placeholder="参数名称、Code" />
                         </div>
@@ -38,7 +38,7 @@
             <div id="dataTable">
                 <partial name="_ListTable" model="Model" />
                 <div class="text-center">
-                    <nav class="pull-right"> 
+                    <nav class="pull-right">
                         @Html.Pager(Model,new PagerOptions
                    {
                        AutoHide = false,
@@ -46,7 +46,7 @@
                        CssClass = "pagination",
                        CurrentPagerItemTemplate = "<li class=\"active\"><a href=\"#\">{0}</a></li>",
                        DisabledPagerItemTemplate = "<li class=\"disabled\"><a>{0}</a></li>"
-                   })                      
+                   })
                     </nav>
                 </div>
             </div>
@@ -58,7 +58,6 @@
 </div>
 @section js
     {
-
     <script type="text/javascript">
         function onComplate(obj) {
             if (obj.success) {

@@ -14,7 +14,7 @@ namespace LZY.Application
             services.AddTransient<IUserBus,UserBus>();
             services.AddTransient<IParaBus, ParaBus>();
             services.AddTransient<IParaValueBus, ParaValueBus>();
-
+            services.AddTransient<IModuleBus, ModuleBus>();
 
             //注册DAL层的依赖注入  
             RepositoryDIRegister.DIRegister(services);

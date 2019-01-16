@@ -11,22 +11,35 @@ namespace LZY.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class t_module
     {
         public int p_id { get; set; }
+        [DisplayName("菜单名称")]
+        [Required, StringLength(maximumLength: 50, MinimumLength = 3)]
         public string p_name { get; set; }
         public string p_tag { get; set; }
+        [Required]
         public int p_parentid { get; set; }
+        [Required, StringLength(maximumLength: 200)]
+
         public string p_describe { get; set; }
+        [StringLength(maximumLength: 400)]
+
         public string p_relativeurl { get; set; }
+
+        [StringLength(maximumLength: 400)]
+
         public string p_icon { get; set; }
         public Nullable<System.DateTime> p_createtime { get; set; }
         public Nullable<int> p_createuserid { get; set; }
         public Nullable<System.DateTime> p_updatetime { get; set; }
         public Nullable<int> p_updateuserid { get; set; }
-        public bool p_enabled { get; set; }
-        public bool p_deleted { get; set; }
-        public int p_sort { get; set; }
+        public bool p_enabled { get; set; } = true;
+        public bool p_deleted { get; set; } = false;
+
+        public int p_sort { get; set; } = 0;
     }
 }

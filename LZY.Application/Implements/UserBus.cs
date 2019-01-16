@@ -49,7 +49,7 @@ namespace LZY.Application
             return Tuple.Create(false, "操作异常，未找到有效的数据");
         }
 
-        public t_user FindDto(object keyValue)
+        public t_user FindModel(object keyValue)
         {
             var dbModel = _service.FindEntity(keyValue);
 

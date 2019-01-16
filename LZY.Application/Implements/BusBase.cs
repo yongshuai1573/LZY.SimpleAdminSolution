@@ -21,7 +21,7 @@ namespace LZY.Application
             throw new NotImplementedException();
         }
 
-        public T FindDto(object keyValue)
+        public T FindModel(object keyValue)
         {
             throw new NotImplementedException();
         }

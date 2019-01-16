@@ -24,7 +24,7 @@ namespace LZY.Application
         /// </summary>
         /// <param name="keyValue"></param>
         /// <returns></returns>
-        public t_para_values FindDto(object keyValue)
+        public t_para_values FindModel(object keyValue)
         {
 
             var dbModel = _service.FindEntity(keyValue);

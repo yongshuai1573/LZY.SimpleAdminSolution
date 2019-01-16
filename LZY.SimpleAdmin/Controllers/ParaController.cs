@@ -31,7 +31,7 @@ namespace LZY.SimpleAdmin.Controllers
             t_paratype model = new t_paratype();
             if (id.GetValueOrDefault() > 0)
             {
-                model = _bus.FindDto(id);
+                model = _bus.FindModel(id);
             }
             return View(model);
         }
