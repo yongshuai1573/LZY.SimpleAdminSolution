@@ -7,7 +7,7 @@ using LZY.Model;
 namespace LZY.Application
 {
     public interface IRoleBus : IBusBase<t_role>
-    {      
-       
+    {   
+
     }
 }
