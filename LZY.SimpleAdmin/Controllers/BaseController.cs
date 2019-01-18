@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LZY.SimpleAdmin.Controllers
 {
     [Authorize]
+    [AuthorizeFilter]
     public class BaseController : Controller
     {
 

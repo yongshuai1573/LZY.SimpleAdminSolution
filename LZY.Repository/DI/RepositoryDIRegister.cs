@@ -13,9 +13,8 @@ namespace LZY.Repository
             services.AddTransient<It_moduleRepository, t_moduleRepository>();
             services.AddTransient<It_paratypeRepository, t_paratypeRepository>();
             services.AddTransient<It_para_valuesRepository, t_para_valuesRepository>();
-
-
-
+            services.AddTransient<It_user_roleRepository, t_user_roleRepository>();
+            services.AddTransient<It_role_moduleRepository, t_role_moduleRepository>();
         }
     }
 }
