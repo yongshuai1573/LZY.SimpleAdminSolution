@@ -5,11 +5,20 @@ using AspNetCorePage;
 using LZY.Model;
 using LZY.Data;
 using System.Linq;
+using LZY.Repository;
+using LZY.Model.ViewModels;
 
 namespace LZY.Application
 {
     public class RoleMenuBus : IRoleMenuBus
     {
+        private It_role_moduleRepository _service;
+
+        public RoleMenuBus(It_role_moduleRepository service)
+        {
+            _service = service;
+        }
+
         public Tuple<bool, string> Deleted(int id)
         {
             throw new NotImplementedException();
@@ -29,6 +38,7 @@ namespace LZY.Application
         {
             throw new NotImplementedException();
         }
+       
         /// <summary>
         /// 为角色授权
         /// </summary>

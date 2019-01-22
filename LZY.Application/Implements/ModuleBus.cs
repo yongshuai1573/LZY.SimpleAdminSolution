@@ -14,9 +14,11 @@ namespace LZY.Application
     public class ModuleBus : IModuleBus
     {
         private It_moduleRepository _service;
-        public ModuleBus(It_moduleRepository service)
+        private It_role_moduleRepository _roleMenuService;
+        public ModuleBus(It_moduleRepository service, It_role_moduleRepository roleMenuRepositor)
         {
             _service = service;
+            _roleMenuService = roleMenuRepositor;
         }
 
         #region 基本操作 可复制
@@ -179,7 +181,64 @@ namespace LZY.Application
             else
                 return null;
         }
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="models"></param>
+        /// <returns></returns>
+        private string GetMenuLayerStr(List<MenuLayerViewModel> models, List<t_role_module> roleMenuData)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("[");
+            foreach (var item in models)
+            {
+                //\"<span class=\"button_z\"><button type=\"button\" class=\"btn btn btn-info btn-xs\" onclick=\"edit({item.id});\">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"del({item.id});\">删除</button></span>\"
+                sb.Append("{");
+                sb.AppendFormat($"id:{item.id},text:\"{item.text}\",icon:\"{item.icon}\" ");
+                if (item.HasChildren)
+                {
+                    sb.Append(",nodes:");
+                    sb.Append(GetMenuLayerStr(item.childList, roleMenuData));
+                }
+                if (roleMenuData?.Count > 0)
+                {
+                    sb.Append(",state:{");
+                    if (roleMenuData.Exists(a => a.p_moduleid == item.id))
+                    {
+                        sb.Append(" checked:true");
+                    }
+                    else
+                    {
+                        sb.Append(" checked:false");
+                    }
+                    sb.Append("}");
 
+                }
+
+                sb.Append("}");
+
+                if (models.IndexOf(item) < models.Count - 1)
+                    sb.Append(",");
+            }
+
+            sb.Append("]");
+            return sb.ToString();
+
+        }
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="models"></param>
+        /// <returns></returns>
+        public string GetRoleMenuLayerStr(List<MenuLayerViewModel> models, int roleId)
+        {
+            var result = _roleMenuService.IQueryable().Where(a => a.p_roleid == roleId).ToList();
+
+
+            return GetMenuLayerStr(models, result);
+
+        }
+      
         public List<t_module> FindList()
         {
             return _service.IQueryable().Where(a => a.p_deleted == false).OrderBy(a => a.p_sort).ToList();

@@ -6,6 +6,7 @@ using LZY.Repository;
 using LZY.Model;
 using AspNetCorePage;
 using LZY.Code;
+using LZY.Model.ViewModels;
 
 namespace LZY.Application
 {
@@ -17,6 +18,26 @@ namespace LZY.Application
         {
             this._service = service;
             this._moduleRepository = moduleRepository;
+        }
+
+        public Tuple<bool, string> ChangePwdSave(ChangePwdViewModel sourceModel)
+        {
+            var userid = LZY.Code.OperatorProvider.Provider.GetCurrent().UserId;
+            if (sourceModel == null)
+            {
+                return Tuple.Create(false, "错误的请求对象！");
+            }
+
+
+            var oldModel =FindModel(userid);           
+            if (sourceModel.OldPwd != oldModel.p_password)
+            {
+                return Tuple.Create(false, "原密码错误！");
+
+            }
+            oldModel.p_password = sourceModel.NewPwd;
+            return SaveModel(oldModel);
+
         }
 
         public Tuple<bool, string> Deleted(int id)

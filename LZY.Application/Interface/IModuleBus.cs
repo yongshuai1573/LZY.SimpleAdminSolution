@@ -13,5 +13,6 @@ namespace LZY.Application
         string GetMenuLayerStr(List<MenuLayerViewModel> models);
         List<t_module> GetRootMenus();
         List<t_module> FindList();
+        string GetRoleMenuLayerStr(List<MenuLayerViewModel> models, int roleId);
     }
 }
